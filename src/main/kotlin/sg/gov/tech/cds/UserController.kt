@@ -44,7 +44,7 @@ class UserController(private val userRepository: UserRepository) {
 
     fun loadFromCSV(csvIn: InputStream): Boolean {
         val mappingStrategy = ColumnPositionMappingStrategy<User>()
-        mappingStrategy.setType(User::class.java)
+        mappingStrategy.type = User::class.java
         mappingStrategy.setColumnMapping("name", "salary")
 
         try {
