@@ -8,16 +8,7 @@ import org.springframework.context.event.EventListener
 
 
 @SpringBootApplication
-class CdsApplication {
-
-	private val logger = KotlinLogging.logger {}
-
-	@EventListener(ApplicationReadyEvent::class)
-	fun loadCSV() {
-		logger.info("hello world, I have just started up")
-	}
-
-}
+class CdsApplication
 
 fun main(args: Array<String>) {
 	runApplication<CdsApplication>(*args)
