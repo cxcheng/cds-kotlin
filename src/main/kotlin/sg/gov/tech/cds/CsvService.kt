@@ -4,36 +4,29 @@ import com.opencsv.CSVWriter
 import com.opencsv.bean.CsvToBeanBuilder
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
-import org.springframework.transaction.annotation.Transactional
 import java.io.*
 
 @Component
-class CSVService {
+class CsvService {
 
     private val logger = KotlinLogging.logger {}
 
-    @Transactional
-    fun loadFromCSV(userRepo: UserRepository, csvIn: InputStream): Int {
-        var numLoadedUsers = 0
+    fun csvToUsers(csvIn: InputStream): List<User> {
         try {
             BufferedReader(InputStreamReader(csvIn)).use {
-                val csvToBean = CsvToBeanBuilder<User>(it)
+                return CsvToBeanBuilder<User>(it)
                         .withType(User::class.java)
                         .withIgnoreLeadingWhiteSpace(true)
                         .build()
-                csvToBean.parse().forEach {
-                    logger.info("Saving ${it.name}")
-                    userRepo.save(it)
-                    ++numLoadedUsers
-                }
+                        .parse()
             }
         } catch (e: Exception) {
             logger.error("Error reading CSV", e)
+            return listOf()
         }
-        return numLoadedUsers
     }
 
-    fun writeToCSV(out: OutputStream, users: List<User>): Int {
+    fun usersToCSV(out: OutputStream, users: List<User>): Int {
         var numLoadedUsers = 0
         try {
             var writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),

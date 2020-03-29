@@ -1,12 +1,12 @@
 package sg.gov.tech.cds
 
-class CSVUtil {
+class CsvUtil {
 
     fun generateTestUsers(count: Int, minSalary: Int, maxSalary: Int): List<User> {
         var users = mutableListOf<User>()
         for (i in 0..count) {
-            users.add(User(name="Random User ${i}",
-                    salary=(minSalary..maxSalary).random().toDouble()))
+            users.add(User(name = "Random User ${i}",
+                    salary = (minSalary..maxSalary).random().toDouble()))
         }
         return users
     }
