@@ -13,6 +13,8 @@ class CsvService {
 
     fun csvToUsers(csvIn: InputStream): List<User> {
         try {
+            // Read CSV file line-by-line, then parse into User each
+            // "use" is similar to try with resources
             BufferedReader(InputStreamReader(csvIn)).use {
                 return CsvToBeanBuilder<User>(it)
                         .withType(User::class.java)
@@ -29,19 +31,18 @@ class CsvService {
     fun usersToCSV(out: OutputStream, users: List<User>): Int {
         var numLoadedUsers = 0
         try {
-            var writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),
+            val writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),
                     CSVWriter.DEFAULT_SEPARATOR,
                     CSVWriter.DEFAULT_QUOTE_CHARACTER,
                     CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                     CSVWriter.DEFAULT_LINE_END)
             writer.use {
+                // Write each User. No header
                 users.forEach {
-                    val user = it
-                    writer.writeNext(arrayOf(user.name, user.salary.toString()))
+                    writer.writeNext(arrayOf(it.name, it.salary.toString()))
                     ++numLoadedUsers
                 }
             }
-
         } catch (e: Exception) {
             logger.error("Error writing CSV", e)
         }
