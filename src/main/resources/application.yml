@@ -8,6 +8,20 @@ spring:
 server:
   port: 9000
 
+logging:
+  level:
+    root: INFO
+    com.opencsv: ERROR
+    org.apache: ERROR
+    org.hibernate: ERROR
+    org.springframework: ERROR
+    sg.gov.tech: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+    file: "%d %p %c{1.} [%t] %m%n"
+  file:
+    name: cds.log
+
 cds:
   default_min_salary: 4000.0
   upload:

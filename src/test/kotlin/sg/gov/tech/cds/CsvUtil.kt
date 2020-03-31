@@ -8,14 +8,14 @@ class CsvUtil {
     companion object {
         fun generateRandomUsers(count: Int, minSalary: Int, maxSalary: Int): List<User> {
             val users = mutableListOf<User>()
-            for (i in 0..count) {
-                users.add(User(name = "Random User ${i}",
+            for (i in 1..count) {
+                users.add(User(name = "Random User $i",
                         salary = (minSalary..maxSalary).random().toDouble()))
             }
             return users
         }
 
-        fun generateCSVColumns(numRows: Int, numCols: Int): InputStream {
+        fun generateCSVColumns(numRows: Int, numCols: Int, prefix: String = ""): InputStream {
             val out = ByteArrayOutputStream(8192)
             val writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),
                     CSVWriter.DEFAULT_SEPARATOR,
@@ -26,7 +26,7 @@ class CsvUtil {
                 for (i in 1..numRows) {
                     val paramList = mutableListOf<String>()
                     repeat(numCols) {
-                        paramList.add("${i}")
+                        paramList.add("$prefix$i")
                     }
                     writer.writeNext(paramList.toTypedArray())
                 }

@@ -6,8 +6,12 @@ import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 @RestController
@@ -58,15 +62,15 @@ class UserController(private val userRepo: UserRepository,
     @GetMapping("/users")
     fun users(@RequestParam(required = false) min: Double?): UserResults {
         return UserResults(results =
-        userRepo.findBySalaryGreaterThan(min ?: defaultMinSalary))
+        userRepo.findBySalaryGreaterThanEqual(min ?: defaultMinSalary))
     }
-/*
+
     @PostMapping("/upload")
     fun upload(@RequestParam("file") file: MultipartFile,
-                  redirectAttributes: RedirectAttributes): String? {
+               redirectAttributes: RedirectAttributes): String? {
         if (file.isEmpty) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload")
-            return "redirect:${uploadFailureUrl}"
+            return "redirect:$uploadFailureUrl"
         }
         try {
             loadRepoFromCsv(ByteArrayInputStream(file.bytes))
@@ -74,10 +78,9 @@ class UserController(private val userRepo: UserRepository,
                     "You successfully uploaded ${file.originalFilename}")
         } catch (e: Exception) {
             logger.error("Unable to process uploaded file ${file.originalFilename}", e)
-            return "redirect:${uploadFailureUrl}"
+            return "redirect:$uploadFailureUrl"
         }
-        return "redirect:${uploadSuccessUrl}"
+        return "redirect:$uploadSuccessUrl"
     }
 
- */
 }

@@ -12,39 +12,41 @@ class CsvService {
     private val logger = KotlinLogging.logger {}
 
     fun csvToUsers(csvIn: InputStream): List<User> {
-        try {
-            // Read CSV file line-by-line, then parse into User each
-            // "use" is similar to try with resources
-            BufferedReader(InputStreamReader(csvIn)).use {
-                return CsvToBeanBuilder<User>(it)
+        // Read CSV file line-by-line, then parse into User each
+        // "use" is similar to try with resources
+        BufferedReader(InputStreamReader(csvIn)).use {
+            var userList: List<User>
+            try {
+                userList = CsvToBeanBuilder<User>(it)
                         .withType(User::class.java)
                         .withIgnoreLeadingWhiteSpace(true)
                         .build()
                         .parse()
+            } catch (e: Exception) {
+                logger.error("Error parsing CSV, returning empty list: ${e.message}")
+                userList = listOf()
             }
-        } catch (e: Exception) {
-            logger.error("Error reading CSV", e)
-            return listOf()
+            return userList
         }
     }
 
     fun usersToCSV(out: OutputStream, users: List<User>): Int {
         var numLoadedUsers = 0
-        try {
-            val writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),
-                    CSVWriter.DEFAULT_SEPARATOR,
-                    CSVWriter.DEFAULT_QUOTE_CHARACTER,
-                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    CSVWriter.DEFAULT_LINE_END)
-            writer.use {
-                // Write each User. No header
+        val writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),
+                CSVWriter.DEFAULT_SEPARATOR,
+                CSVWriter.DEFAULT_QUOTE_CHARACTER,
+                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                CSVWriter.DEFAULT_LINE_END)
+        writer.use {
+            // Write each User. No header
+            try {
                 users.forEach {
                     writer.writeNext(arrayOf(it.name, it.salary.toString()))
                     ++numLoadedUsers
                 }
+            } catch (e: Exception) {
+                logger.error("Error writing CSV", e)
             }
-        } catch (e: Exception) {
-            logger.error("Error writing CSV", e)
         }
         return numLoadedUsers
     }

@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository
 
 interface UserRepository : CrudRepository<User, Long> {
     fun findFirstByOrderByNameAsc(): List<User>
-    fun findBySalaryGreaterThan(salary: Double): List<User>
+    fun findBySalaryGreaterThanEqual(salary: Double): List<User>
 }
