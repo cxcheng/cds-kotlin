@@ -22,6 +22,10 @@ logging:
   file:
     name: cds.log
 
+springdoc:
+  api-docs:
+    path: /api-docs
+
 cds:
   default_min_salary: 4000.0
   upload:

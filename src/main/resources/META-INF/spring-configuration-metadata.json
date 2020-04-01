@@ -9,8 +9,8 @@
       "type": "java.lang.String"
     },
     {
-      "name": "cds.upload.faiure_url",
-      "type": "java.lang.Integer"
+      "name": "cds.upload.failure_url",
+      "type": "java.lang.String"
     }
   ]
 }
