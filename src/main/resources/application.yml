@@ -26,4 +26,4 @@ cds:
   default_min_salary: 4000.0
   upload:
     success_url: /users
-    failure_url: /users
+    failure_url: /error

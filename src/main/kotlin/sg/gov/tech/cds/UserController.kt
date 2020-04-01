@@ -78,6 +78,7 @@ class UserController(private val userRepo: UserRepository,
                     "You successfully uploaded ${file.originalFilename}")
         } catch (e: Exception) {
             logger.error("Unable to process uploaded file ${file.originalFilename}", e)
+            redirectAttributes.addFlashAttribute("message", "${e.message}")
             return "redirect:$uploadFailureUrl"
         }
         return "redirect:$uploadSuccessUrl"

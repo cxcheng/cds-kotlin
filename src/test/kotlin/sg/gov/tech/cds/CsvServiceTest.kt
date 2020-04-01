@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.InputStream
 
 @ExtendWith(MockitoExtension::class)
 class CsvServiceTest {
@@ -19,14 +18,9 @@ class CsvServiceTest {
 
     private val service = CsvService()
 
-    private fun toInputStream(s: String): InputStream {
-        return ByteArrayInputStream(s.toByteArray())
-    }
-
     @Test
     fun `WHEN empty CSV to csvToUsers THEN empty list returned`() {
-        val input = service.csvToUsers(toInputStream(""))
-        assertThat(input, isEmpty)
+        assertThat(service.csvToUsers(ByteArrayInputStream("".toByteArray())), isEmpty)
     }
 
     @Test

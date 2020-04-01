@@ -30,8 +30,7 @@ class CsvService {
         }
     }
 
-    fun usersToCSV(out: OutputStream, users: List<User>): Int {
-        var numLoadedUsers = 0
+    fun usersToCSV(out: OutputStream, users: List<User>) {
         val writer = CSVWriter(BufferedWriter(OutputStreamWriter(out)),
                 CSVWriter.DEFAULT_SEPARATOR,
                 CSVWriter.DEFAULT_QUOTE_CHARACTER,
@@ -42,12 +41,10 @@ class CsvService {
             try {
                 users.forEach {
                     writer.writeNext(arrayOf(it.name, it.salary.toString()))
-                    ++numLoadedUsers
                 }
             } catch (e: Exception) {
                 logger.error("Error writing CSV", e)
             }
         }
-        return numLoadedUsers
     }
 }

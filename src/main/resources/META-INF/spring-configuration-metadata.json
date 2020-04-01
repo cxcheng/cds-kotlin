@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "cds.default_min_salary",
+      "type": "java.lang.Double"
+    },
+    {
+      "name": "cds.upload.success_url",
+      "type": "java.lang.String"
+    },
+    {
+      "name": "cds.upload.faiure_url",
+      "type": "java.lang.Integer"
+    }
+  ]
+}
