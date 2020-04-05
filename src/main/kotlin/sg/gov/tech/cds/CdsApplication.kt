@@ -8,5 +8,5 @@ import org.springframework.boot.runApplication
 class CdsApplication
 
 fun main(args: Array<String>) {
-	runApplication<CdsApplication>(*args)
+    runApplication<CdsApplication>(*args)
 }

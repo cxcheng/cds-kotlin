@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter
 import com.opencsv.bean.CsvToBeanBuilder
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.io.*
 
 @Component
@@ -47,4 +48,19 @@ class CsvService {
             }
         }
     }
+
+    @Transactional
+    fun loadRepoFromCsv(userRepo: UserRepository, csvIn: InputStream) {
+        var numLoadedUsers = 0
+        try {
+            csvToUsers(csvIn).forEach {
+                userRepo.save(it)
+                ++numLoadedUsers
+            }
+            logger.info("Successfully loaded ${numLoadedUsers} users")
+        } catch (e: Exception) {
+            logger.error("Error loading users from CSV", e)
+        }
+    }
+
 }

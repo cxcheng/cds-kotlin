@@ -1,0 +1,7 @@
+#spring:
+#  datasource:
+#    driverClassName: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://localhost/test
+
+cds:
+  default_min_salary: 4000.0
